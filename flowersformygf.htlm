@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowers for You</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        #canvas {
+            border: 1px solid black;
+            background-color: #fff;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <div id="message">Your message here</div>
+    <script>
+        function drawFlower(ctx, x, y, petalCount, petalColor) {
+            for (let i = 0; i < petalCount; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                let angle = i * (2 * Math.PI / petalCount);
+                ctx.quadraticCurveTo(
+                    x + 50 * Math.cos(angle + Math.PI / petalCount),
+                    y + 50 * Math.sin(angle + Math.PI / petalCount),
+                    x + 100 * Math.cos(angle),
+                    y + 100 * Math.sin(angle)
+                );
+                ctx.fillStyle = petalColor;
+                ctx.fill();
+                ctx.closePath();
+            }
+            ctx.beginPath();
+            ctx.arc(x, y, 20, 0, 2 * Math.PI, false);
+            ctx.fillStyle = 'yellow';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function draw() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw multiple flowers
+            drawFlower(ctx, 200, 200, 8, 'pink');
+            drawFlower(ctx, 400, 200, 6, 'red');
+            drawFlower(ctx, 300, 300, 5, 'blue');
+        }
+
+        function setMessage() {
+            const message = prompt("Write something about her:");
+            if (message) {
+                document.getElementById('message').innerText = message;
+            }
+        }
+
+        window.onload = function() {
+            draw();
+            setMessage();
+        }
+    </script>
+</body>
+</html>
